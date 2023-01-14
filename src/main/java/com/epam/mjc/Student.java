@@ -28,13 +28,10 @@ public enum Student {
   }
 
   public static Student getValueOf(long id) throws IllegalArgumentException{
-      try{
-          return Arrays.stream(Student.values())
-                  .filter(student -> id == student.getId())
-                  .findFirst().get();
-      } catch (NoSuchElementException exc){
-            throw new IllegalArgumentException(String.format("Could not find student with ID %s", id), exc);
-      }
+      return Arrays.stream(Student.values())
+              .filter(student -> id == student.getId())
+              .findFirst()
+              .orElse(null);
   }
 
   public long getId() {
