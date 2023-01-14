@@ -2,6 +2,7 @@ package com.epam.mjc;
 
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public enum Student {
 
@@ -26,11 +27,14 @@ public enum Student {
     this.age = age;
   }
 
-  public static Student getValueOf(long id) {
-    return Arrays.stream(Student.values())
-        .filter(student -> id == student.getId())
-        .findFirst()
-        .orElse(null);
+  public static Student getValueOf(long id) throws IllegalArgumentException{
+      try{
+          return Arrays.stream(Student.values())
+                  .filter(student -> id == student.getId())
+                  .findFirst().get();
+      } catch (NoSuchElementException exc){
+            throw new IllegalArgumentException(String.format("Could not find student with ID %s", id), exc);
+      }
   }
 
   public long getId() {
